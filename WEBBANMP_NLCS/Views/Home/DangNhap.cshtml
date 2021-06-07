@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Views/Layout/_AccountLayout.cshtml";
+}
+
+
+
+<div class="col-sm-4">
+</div>
+<div class="col-sm-4">
+    <div class="login-form">
+
+        <h2 class="title text-center">Đăng nhập</h2>
+
+
+
+        @using (Ajax.BeginForm("DangNhap", "Home", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBaoDangNhap" }, new { @class = "my-form" }))
+        {
+
+            <input type="text" placeholder="Tên đăng nhập" name="username" required>
+            <input type="password" placeholder="Mật khẩu" name="password" required>
+
+            <h4 class="text-danger" id="ThongBaoDangNhap"> </h4>
+            <h5 class="text-center">Chưa có tài khoản? <a href="@Url.Action("DangKy","Home")">Đăng ký tại đây</a></h5>
+
+            <button type="submit" class="btn btn-default center-block">Đăng nhập</button>
+
+        }
+
+
+
+    </div>
+</div>

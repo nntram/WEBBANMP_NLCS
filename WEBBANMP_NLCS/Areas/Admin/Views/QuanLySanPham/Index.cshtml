@@ -1,0 +1,50 @@
+﻿@using WEBBANMP_NLCS.Models
+@using System.Globalization
+@model IEnumerable<SANPHAM>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 15);
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý sản phẩm</h1>
+
+<div class="card-header py-3">
+    <a class="btn btn-info" href="@Url.Action("TaoMoiSanPham")"> <i class="fas fa-plus"></i> Tạo mới</a>
+</div>
+
+@using(Ajax.BeginForm("KQTimKiemPartial", "QuanLySanPham", new AjaxOptions { @UpdateTargetId = "KetQua", @InsertionMode = InsertionMode.Replace }))
+{ 
+<div class="search-bar">
+    <div class="input-group">
+        <input type="text" class="form-control bg-light small" value="" name="sTuKhoa" placeholder="Tên sản phẩm..."
+               aria-label="Search" aria-describedby="basic-addon2" required>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+
+</div>
+}
+<div id="KetQua">
+    @grid.GetHtml(
+       tableStyle: "table table-bordered table-hover",
+       headerStyle: "thead-light text-center",
+       columns: grid.Columns(
+         grid.Column("SP_MA", "Mã sản phẩm", style: "text-center"),
+         grid.Column("SP_TEN", "Tên sản phẩm"),
+         grid.Column("SP_GIA", "Giá", format: p => new HtmlString(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", p.SP_GIA) + " VNĐ")),
+         grid.Column("SP_SL", "Số lượng", style: "text-center"),
+         grid.Column(format: p => @Html.ActionLink("Sửa", "SuaSanPham", new { id = p.SP_MA })),
+         grid.Column(format: p => @Html.ActionLink("Xóa", "XoaSanPham", new { id = p.SP_MA }))
+         //grid.Column("SP_HINH", "Hình ảnh", format: p => Html.Raw("<img src=\"/Content/HinhAnhSP/" + p.SP_HINH + "\", class = \"img-fluid img-thumbnail\" />"))
+         )
+    )
+</div>
+
+
+

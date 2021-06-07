@@ -1,0 +1,31 @@
+﻿@using WEBBANMP_NLCS.Models
+@using System.Globalization
+@model IEnumerable<NHANVIEN>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model);
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý nhân viên</h1>
+
+<div class="card-header py-3">
+    <a class="btn btn-info" href="@Url.Action("TaoMoiNhanVien")"> <i class="fas fa-plus"></i> Tạo mới</a>
+</div>
+
+@grid.GetHtml(
+   tableStyle: "table table-bordered table-hover",
+   headerStyle: "thead-light text-center",
+   columns: grid.Columns(
+     grid.Column("NV_MA", "Mã nhân viên", style: "text-center"),
+     grid.Column("NV_HOTEN", "Họ tên nhân viên"),
+     grid.Column("NV_SDT", "Số điện thoại"),
+      grid.Column("NV_QUYENSD", "Quyền sử dụng"),
+     grid.Column(format: p => @Html.ActionLink("Sửa", "SuaNhanVien", new { id = p.NV_MA })),
+     grid.Column(format: p => @Html.ActionLink("Xóa", "XoaNhanVien", new { id = p.NV_MA }))
+   )
+)
+
+

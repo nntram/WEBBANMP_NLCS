@@ -1,0 +1,41 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<DONDAT>
+
+@{
+    ViewBag.Title = "DaHuy";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 15);
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý đơn đặt hàng</h1>
+
+<div class="topnav">
+    <a href="@Url.Action("Index","QuanLyDonDat")">Tìm kiếm</a>
+    <a href="@Url.Action("ChuaGiao","QuanLyDonDat")">Chưa giao cho bên vận chuyển</a>
+    <a href="@Url.Action("DaGiao","QuanLyDonDat")">Đã giao cho bên vận chuyển</a>
+    <a href="@Url.Action("DaHoanThanh","QuanLyDonDat")">Đã hoàn thành</a>
+    <a href="@Url.Action("DaHuy","QuanLyDonDat")" class="active">Đã hủy</a>
+</div>
+<br />
+
+@grid.GetHtml(
+   tableStyle: "table table-bordered table-hover",
+   headerStyle: "thead-light text-center",
+   columns: grid.Columns(
+     grid.Column("DD_MA", "Mã đơn hàng", style: "text-center"),
+     grid.Column("KHACHHANG.KH_HOTEN", "Tên khách hàng"),
+     grid.Column("DD_DIACHI", "Địa chỉ giao"),
+     grid.Column("DD_SDT", "Số điện thoại"),
+     grid.Column("DD_NGAYDAT", "Ngày đặt"),
+     grid.Column(format: p => @Html.ActionLink("Duyệt đơn hàng", "DuyetDonHang", new { id = p.DD_MA }))
+     )
+)
+
+
+
+
+
+
+

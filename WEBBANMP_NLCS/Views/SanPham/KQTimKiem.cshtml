@@ -1,0 +1,10 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<SANPHAM>
+@{
+    ViewBag.Title = "KQTimKiem";
+    Layout = "~/Views/Layout/_HomeLayout.cshtml";
+}
+
+
+@Html.Partial("SanPhamPartial", Model);
+

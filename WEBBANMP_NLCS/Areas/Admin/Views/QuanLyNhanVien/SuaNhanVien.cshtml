@@ -1,0 +1,74 @@
+﻿@model WEBBANMP_NLCS.Models.NHANVIEN
+@{
+    ViewBag.Title = "SuaNhanVien";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Sửa nhân viên</h2>
+
+@using (Html.BeginForm("SuaNhanVien", "QuanLyNhanVien", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("NV_MA", Model.NV_MA)
+    <div class="form-group">
+        @Html.LabelFor(model => model.NV_HOTEN, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.NV_HOTEN, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.NV_HOTEN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2"> Giới tính</label>
+
+        <div class="col-md-2">
+            @Html.DropDownList("NV_GIOITINH", new List<SelectListItem>()
+          {
+              new SelectListItem(){Text = "Nam", Value = "true"},
+              new SelectListItem(){Text = "Nữ", Value = "false"}
+          }, new { @class = "form-control" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NV_SDT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.NV_SDT, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.NV_SDT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    
+
+   
+    <div class="form-group">
+        <label class="control-label col-md-2">Chức vụ</label>
+        <div class="col-md-3">
+            @Html.DropDownList("NV_QUYENSD", new List<SelectListItem>()
+          {
+              new SelectListItem(){Text = "Nhân viên", Value = "user"},
+              new SelectListItem(){Text = "Quản lý cửa hàng", Value = "admin"},
+              new SelectListItem(){Text = "Đã thôi việc", Value = "disabled"}
+          }, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>
+

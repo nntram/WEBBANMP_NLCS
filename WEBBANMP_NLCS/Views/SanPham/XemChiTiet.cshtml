@@ -1,0 +1,112 @@
+﻿@using WEBBANMP_NLCS.Models
+@model SANPHAM
+@using System.Globalization
+@{
+    ViewBag.Title = "XemChiTiet";
+    Layout = "~/Views/Layout/_HomeLayout.cshtml";
+}
+
+
+@{IEnumerable<SANPHAM> lstDeXuat = (IEnumerable<SANPHAM>)ViewBag.DeXuat;}
+
+
+
+
+<div class="col-sm-9 padding-right">
+    <div class="product-details">
+        <!--product-details-->
+        <div class="col-sm-6">
+            <div class="view-product">
+                <img src="@Url.Content("~/Content/HinhAnhSP/" + Model.SP_HINH)" alt="" />
+
+            </div>
+            <div id="similar-product" class="carousel slide" data-ride="carousel">
+
+
+            </div>
+
+        </div>
+
+        <form method="post" action="@Url.Action("ThemGioHangCT","GioHang")">
+            <div class="col-sm-6">
+                <div class="product-information">
+                    <!--/product-information-->
+
+                    <h2>@Model.SP_TEN</h2>
+                    <p>Mã sản phẩm: @Model.SP_MA </p> @Html.Hidden("MaSP", Model.SP_MA);
+                    <img src="images/product-details/rating.png" alt="" />
+                    <span>
+                        <span>@string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", Model.SP_GIA) VNĐ </span>
+                        <br /><label>Số lượng:</label>
+
+                        <input type="number" min="1" max="@Model.SP_SL" value="1" step="1"  pattern="\d*" class="SoLuong" name="SoLuong" />
+
+                        <br />
+
+                    </span>
+                    <p><b>Tình trạng:</b> Còn hàng</p>
+                    <p><b>Thương hiệu:</b> @Model.NHASANXUAT.NSX_TEN</p>
+                    <br />
+                    <div>
+                        <button type="submit" class="btn btn-fefault cart" id="add-to-cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+
+
+
+                    </div>
+                </div><!--/product-information-->
+            </div>
+        </form>
+    </div><!--/product-details-->
+</div>
+
+
+<div class="category-tab shop-details-tab">
+    <!--category-tab-->
+    <div class="col-sm-12">
+        <h3 class="intro">Giới thiệu sản phẩm</h3>
+    </div>
+    <p class="intro">@Model.SP_MOTA</p>
+
+</div><!--/category-tab-->
+
+<div class="recommended_items">
+    <!--recommended_items-->
+    <h2 class="title text-center">Sản phẩm tương tự</h2>
+
+    <div id="recommended-item-carousel" class="carousel slide">
+        <div class="carousel-inner">
+
+            <div class="item active">
+                @{
+                    if (lstDeXuat.Count() > 3)
+                    {
+                        lstDeXuat = lstDeXuat.Take(3);
+                    }
+                }
+
+                @foreach (var item in lstDeXuat)
+                {
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="@Url.Content("~/Content/HinhAnhSP/" + item.SP_HINH)" alt="" />
+                                    <h4>@string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.SP_GIA) VNĐ</h4>
+                                    <p><a href="@Url.Action("XemChiTiet","SanPham", new { id = item.SP_MA})">@item.SP_TEN</a></p>
+                                    <a  class="btn btn-default add-to-cart" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#liGioHang" href="@Url.Action("ThemGioHangAjax", "GioHang", new { @MaSP = item.SP_MA })"> <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div><!--/recommended_items-->
+

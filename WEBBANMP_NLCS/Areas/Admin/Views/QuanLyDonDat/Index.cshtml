@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý đơn đặt hàng</h1>
+
+
+
+
+<div class="topnav">
+    <a href="@Url.Action("Index","QuanLyDonDat")" class="active">Tìm kiếm</a>
+    <a href="@Url.Action("ChuaGiao","QuanLyDonDat")">Chưa giao cho bên vận chuyển</a>
+    <a href="@Url.Action("DaGiao","QuanLyDonDat")">Đã giao cho bên vận chuyển</a>
+    <a href="@Url.Action("DaHoanThanh","QuanLyDonDat")">Đã hoàn thành</a>
+    <a href="@Url.Action("DaHuy","QuanLyDonDat")">Đã hủy</a>
+</div>
+
+@using (Ajax.BeginForm("KQTimKiemPartial", "QuanLyDonDat", new AjaxOptions { @UpdateTargetId = "KetQua", @InsertionMode = InsertionMode.Replace }))
+{
+    <div class="search-bar">
+        <div class="input-group">
+            <input type="number" class="form-control bg-light small col-md-5" value="" name="sTuKhoa" placeholder="Mã đơn hàng..."
+                   aria-label="Search" aria-describedby="basic-addon2" required>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+}
+
+<div id="KetQua"></div>
+
+
+
+

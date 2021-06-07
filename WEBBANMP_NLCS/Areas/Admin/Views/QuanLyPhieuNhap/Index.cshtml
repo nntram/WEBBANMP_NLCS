@@ -1,0 +1,27 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<PHIEUNHAP>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 15);
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý phiếu nhập</h1>
+
+<div class="card-header py-3">
+    <a class="btn btn-info" href="@Url.Action("TaoMoiPhieuNhap")"> <i class="fas fa-plus"></i> Tạo mới</a>
+</div>
+
+@grid.GetHtml(
+   tableStyle: "table table-bordered table-hover",
+   headerStyle: "thead-light text-center",
+   columns: grid.Columns(
+     grid.Column("PN_MA", "Mã phiếu nhập", style: "text-center"),
+     grid.Column("NHACUNGCAP.NCC_TEN", "Nhà cung cấp"),
+     grid.Column("PN_NGAYNHAP", "Ngày nhập"),
+     grid.Column("NHANVIEN.NV_HOTEN", "Nhân viên nhập"),
+     grid.Column(format: p => @Html.ActionLink("Xem chi tiết", "XemPhieuNhap", new { id = p.PN_MA }))    
+     )
+)

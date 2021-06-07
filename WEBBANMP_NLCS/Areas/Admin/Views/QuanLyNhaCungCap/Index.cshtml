@@ -1,0 +1,29 @@
+﻿@using WEBBANMP_NLCS.Models
+@using System.Globalization
+@model IEnumerable<NHACUNGCAP>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model);
+}
+
+<h1 class="h3 mb-2 text-gray-800">Quản lý nhà cung cấp</h1>
+
+<div class="card-header py-3">
+    <a class="btn btn-info" href="@Url.Action("TaoMoiNhaCungCap")"> <i class="fas fa-plus"></i> Tạo mới</a>
+</div>
+
+@grid.GetHtml(
+   tableStyle: "table table-bordered table-hover",
+   headerStyle: "thead-light text-center",
+   columns: grid.Columns(
+     grid.Column("NCC_MA", "Mã nhà cung cấp", style: "text-center"),
+     grid.Column("NCC_TEN", "Tên nhà nhà cung cấp"),
+     grid.Column(format: p => @Html.ActionLink("Sửa", "SuaNhaCungCap", new { id = p.NCC_MA })),
+     grid.Column(format: p => @Html.ActionLink("Xóa", "XoaNhaCungCap", new { id = p.NCC_MA }))
+   )
+)
+
+

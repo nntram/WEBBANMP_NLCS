@@ -1,0 +1,75 @@
+﻿@using WEBBANMP_NLCS.Models
+
+
+<div class="header-middle">
+    <!--header-middle-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 clearfix">
+                <div class="logo pull-left">
+
+                    <a href="@Url.Action("Index","Home")"><img src="~/Content/images/logo2.png" alt="" /></a>
+                </div>
+
+            </div>
+            <div class="col-md-8 clearfix">
+                <div class="shop-menu clearfix pull-right">
+                    <ul class="nav navbar-nav">
+
+                        @if (Session["TaiKhoan"] != null && Session["TaiKhoan"] != "")
+                        {
+
+                            KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
+                            <li><a href="@Url.Action("SuaThongTin", "Home")"><i class="fa fa-user"></i>Xin chào @kh.KH_HOTEN</a></li>
+                            <li><a href="@Url.Action("LichSuMuaHang", "Home")"><i class="fa fa-book"></i>Lịch sử mua hàng</a></li>
+                            <li><a href="@Url.Action("DangXuat","Home")"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("DangKy","Home")"><i class="fa fa-user"></i>Đăng ký</a></li>
+                            <li><a href="@Url.Action("DangNhap","Home")"><i class="fa fa-lock"></i>Đăng nhập </a></li>
+                        }
+
+
+
+                        <li>@Html.Action("GioHangPartial", "GioHang")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/header-middle-->
+
+<div class="header-bottom">
+    <!--header-bottom-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+
+                <div class="mainmenu pull-left">
+                    <ul class="nav navbar-nav collapse navbar-collapse">
+                        <li><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+
+                        <li>
+                            <a href="@Url.Action("Index","SanPham")">Tất cả sản phẩm</a>
+
+                        </li>
+
+                        <li><a href="">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <form method="post" action="@Url.Action("KQTimKiem", "SanPham")">
+                <div class="col-sm-5">
+                    <input type="search" name="sTuKhoa" placeholder="Tìm sản phẩm" class="search_box" />
+                    <input type="submit" value="Tìm kiếm" class="btn btn-search" />
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+<!--/header-bottom-->

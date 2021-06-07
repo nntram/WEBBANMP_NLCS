@@ -1,0 +1,127 @@
+﻿@using WEBBANMP_NLCS.Models
+@using System.Globalization;
+@model List<ITEMGIOHANG>
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Layout/_AccountLayout.cshtml";
+}
+
+<h2 class="title text-center">Thông tin giỏ hàng</h2>
+
+@{
+
+    if (@Model.Count == 0)
+    {
+
+        <img src="https://hopcartongiare.vn/images/emptycart.png" class="center-block" />
+        <h2 class="text-center"> Giỏ hàng rỗng! Tiếp tục mua sắm nhé!</h2>
+    }
+    else
+    {
+        decimal? tongtien = 0, tongsl = 0;
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Sản phẩm</td>
+                        <td class="description"></td>
+                        <td class="price">Đơn giá</td>
+                        <td class="quantity">Số lượng</td>
+                        <td class="total">Thành tiền</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="cart_product">
+                                <a><img src="@Url.Content("~/Content/HinhAnhSP/" + item.SP_HINH)" class="img-cart" alt=""></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="@Url.Action("XemChiTiet", "SanPham", new { id = item.SP_MA })">@item.SP_TEN</a></h4>
+                                <p>Mã sản phẩm: @item.SP_MA</p> @Html.Hidden("MaSP", item.SP_MA)
+                            </td>
+                            <td class="cart_price">
+                                <p>@string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.GIABAN) VNĐ</p>
+                            </td>
+                            <td class="cart_price">
+
+                                <p class="text-center"> @item.SOLUONG </p>
+
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price">@string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.THANHTIEN) VNĐ</p>
+                            </td>
+
+                            @{
+                                tongtien += item.THANHTIEN;
+                                tongsl += item.SOLUONG;
+                            }
+
+                            <td> <a href="@Url.Action("SuaGioHang",  "GioHang", new { @MaSP = item.SP_MA})" class="btn btn-light">Sửa</a> </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" href="@Url.Action("XoaGioHang",  "GioHang", new { @MaSP = item.SP_MA})"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-right">
+            <h3>Tổng: @tongsl sản phẩm</h3>
+            <h3>Tổng tiền: @string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", tongtien) VNĐ</h3>
+        </div>
+
+        if (ViewBag.TaiKhoanKH == null)
+        {
+            <div class="text-right">
+                <a href="@Url.Action("DangNhap", "Home")"><button type="submit" class="btn btn-primary btn-lg"> <i class="fa fa-money"></i> Đặt hàng </button></a>
+                <a href="@Url.Action("Index", "Home")"><button type="button" class="btn btn-primary btn-lg"><i class="fa fa-shopping-cart"></i> Mua tiếp</button></a>
+            </div>
+        }
+        else
+        {
+            KHACHHANG kh = (KHACHHANG)ViewBag.TaiKhoanKH;
+            <form method="post" id="DatHang" action="@Url.Action("DatHang", "GioHang")">
+                <h2 class="title text-center">Thông tin giao hàng</h2>
+
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-5">
+                        <label> Địa chỉ:</label>
+                        <input type="text" class="form-control" name="DiaChi" value="@kh.KH_DIACHI" required>
+                    </div>
+                    <div class="col-sm-3">
+                        <label> Số điện thoại:</label>
+                        <input type="text" class="form-control" name="SoDienThoai" value="@kh.KH_SDT" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <label> Ghi chú:</label>
+                        <textarea name="GhiChu" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <a href="@Url.Action("DatHang", "GioHang")"><button type="submit" class="btn btn-primary btn-lg" form="DatHang"> <i class="fa fa-money"></i> Đặt hàng </button></a>
+                    <a href="@Url.Action("Index", "Home")"><button type="button" class="btn btn-primary btn-lg"><i class="fa fa-shopping-cart"></i> Mua tiếp</button></a>
+                </div>
+            </form>
+        }
+    }
+
+
+}
+
+
+

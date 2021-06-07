@@ -1,0 +1,49 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<SANPHAM>
+
+<div class="left-sidebar">
+    <h2>Loại sản phẩm</h2>
+    <div class="panel-group category-products" id="accordian">
+        <!--category-productsr-->
+
+
+        @foreach (var groupItem in Model.GroupBy(n => n.LOAISANPHAM))
+        {
+            if (groupItem.Key != null)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><a href="@Url.Action("LoaiSanPham","SanPham", new { @MaLoaiSP = groupItem.Key.L_MA})">@groupItem.Key.L_TEN</a></h4>
+                    </div>
+                </div>
+
+            }
+
+        }
+
+    </div>
+    <!--/category-products-->
+
+    <div class="brands_products">
+        <!--brands_products-->
+        <h2>Thương hiệu</h2>
+        <div class="brands-name">
+            <ul class="nav nav-pills nav-stacked">
+                @foreach (var groupItem in Model.GroupBy(n => n.NHASANXUAT))
+                {
+                    if (groupItem.Key != null)
+                    {
+                        <li>
+                            <a href="@Url.Action("ThuongHieu","SanPham", new { @MaNSX = groupItem.Key.NSX_MA})"> <span class="pull-right"></span>@groupItem.Key.NSX_TEN</a>
+                        </li>
+                    }
+                }
+
+             </ul>
+        </div>
+    </div>
+    <!--/brands_products-->
+
+
+
+</div>

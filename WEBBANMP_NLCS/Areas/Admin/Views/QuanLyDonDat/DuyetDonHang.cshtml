@@ -1,0 +1,112 @@
+﻿@using WEBBANMP_NLCS.Models
+@model DONDAT
+@using System.Globalization
+
+@{
+    ViewBag.Title = "DuyetDonHang";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    IEnumerable<CHITIETDONDAT> lstCT = (IEnumerable<CHITIETDONDAT>)ViewBag.CT;
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: lstCT, rowsPerPage: 15);
+
+
+}
+
+<h2>Duyệt đơn hàng</h2>
+
+
+
+@using (Html.BeginForm("DuyetDonHang", "QuanLyDonDat", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="noiDung">
+        <div class="form-horizontal">
+
+            <hr />
+            <div class="form-group">
+                <h5 class="control-label">Mã đơn hàng: @Model.DD_MA</h5>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <label class="control-label">Tên khách hàng: @Model.KHACHHANG.KH_HOTEN</label>
+                </div>
+
+                <div class="form-group col">
+                    <label class="control-label">Địa chỉ giao: @Model.DD_DIACHI</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <label class="control-label">Số điện thoại: @Model.DD_SDT</label>
+                </div>
+
+                <div class="form-group col">
+                    <label class="control-label">Ngày đặt: @Model.DD_NGAYDAT</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ghi chú: @Model.DD_GHICHU</label>
+            </div>
+
+            <div class="form-group">
+                <label>Nhân viên phụ trách: @Model.NHANVIEN.NV_HOTEN</label>
+            </div>
+
+
+        </div>
+
+
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            headerStyle: "thead-light text-center",
+            columns: grid.Columns(
+              grid.Column("SP_MA", "Mã sản phẩm", style: "text-center"),
+              grid.Column("SANPHAM.SP_TEN", "Tên sản phẩm"),
+              grid.Column("GIABAN", "Giá bán", format: p => new HtmlString(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", p.GIABAN) + " VNĐ")),
+              grid.Column("SOLUONG", "Số lượng", style: "text-center"),
+              grid.Column("THANHTIEN", "Thành tiền", format: p => new HtmlString(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", p.SOLUONG * p.GIABAN) + " VNĐ") )
+              //grid.Column("SP_HINH", "Hình ảnh", format: p => Html.Raw("<img src=\"/Content/HinhAnhSP/" + p.SP_HINH + "\", class = \"img-fluid img-thumbnail\" />"))
+              )
+         )
+
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td>Tổng số lượng:</td>
+                <td>@Model.CHITIETDONDATs.Sum(n => n.SOLUONG) sản phẩm</td>
+
+            </tr>
+
+            <tr>
+                <td> Tổng tiền:</td>
+                <td>@Model.CHITIETDONDATs.Sum(n => n.GIABAN*n.SOLUONG).Value.ToString("#,##") VNĐ</td>
+            </tr>
+        </table>
+    </div>
+
+    @Html.Hidden("DD_MA", Model.DD_MA)
+    <div class="form-group">
+        <label>Trạng thái:</label>
+        @Html.DropDownList("DD_TRANGTHAI", new List<SelectListItem>()
+             {
+                 new SelectListItem(){Text = "Chưa giao cho bên vận chuyển", Value = "0"},
+                 new SelectListItem(){Text = "Đã giao cho bên vận chuyển", Value = "1"},
+                 new SelectListItem(){Text = "Đã hoàn thành", Value = "2"},
+                 new SelectListItem(){Text = "Đã hủy", Value = "-1"}
+             }, new { @class = "form-control col-md-5" })
+        <br />
+        <input type="submit" class="btn btn-primary" value="Cập nhật">
+        <a class="btn btn-primary" id="btnInDonHang">In đơn hàng</a> @*sd javascripts*@
+    </div>
+
+
+}
+
+
+<div>
+    @Html.ActionLink("Trở về", "ChuaGiao")
+</div>

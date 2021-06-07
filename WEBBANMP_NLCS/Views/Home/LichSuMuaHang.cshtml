@@ -1,0 +1,54 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<DONDAT>
+@{
+    ViewBag.Title = "LichSuMuaHang";
+    Layout = "~/Views/Layout/_AccountLayout.cshtml";
+}
+
+<h2 class="title text-center">Lịch sử mua hàng</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr style="background-color:PaleVioletRed;">
+            <th class="text-center">Mã đơn hàng</th>
+            <th class="text-center">Ngày đặt hàng</th>
+            <th class="text-center">Số lượng sản phẩm</th>
+            <th class="text-center">Tổng tiền</th>
+            <th class="text-center">Trạng thái</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">@item.DD_MA</td>
+                <td>@item.DD_NGAYDAT</td>
+                <td class="text-center">@item.CHITIETDONDATs.Sum(n => n.SOLUONG)</td>
+                <td class="text-right">@item.CHITIETDONDATs.Sum(n => n.GIABAN * n.SOLUONG).Value.ToString("#,##") VNĐ</td>
+
+                @{
+                    switch (item.DD_TRANGTHAI)
+                    {
+                        case -1:
+                            <td>Đã hủy</td>
+                            break;
+                        case 0:
+                            <td>Chưa giao cho bên vận chuyển</td>
+                            break;
+                        case 1:
+                            <td>Đã giao cho bên vận chuyển</td>
+                            break;
+                        case 2:
+                            <td>Đã hoàn thành</td>
+                            break;
+
+
+                    }
+                }
+                <td>@Html.ActionLink("Xem chi tiết", "XemDonHang", new { id = item.DD_MA })</td>
+            </tr>
+        }
+
+    </table>
+
+</div>

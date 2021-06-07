@@ -1,0 +1,25 @@
+﻿@using WEBBANMP_NLCS.Models
+@model IEnumerable<DONDAT>
+
+@{
+
+    // khởi tạo control webgrid
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 15);
+}
+
+
+
+@grid.GetHtml(
+   tableStyle: "table table-bordered table-hover",
+   headerStyle: "thead-light text-center",
+   columns: grid.Columns(
+     grid.Column("DD_MA", "Mã đơn hàng", style: "text-center"),
+     grid.Column("KHACHHANG.KH_HOTEN", "Tên khách hàng"),
+     grid.Column("DD_DIACHI", "Địa chỉ giao"),
+     grid.Column("DD_SDT", "Số điện thoại"),
+     grid.Column("DD_NGAYDAT", "Ngày đặt"),
+     grid.Column(format: p => @Html.ActionLink("Duyệt đơn hàng", "DuyetDonHang", new { id = p.DD_MA }))
+     )
+)
+
+<br />

@@ -1,0 +1,56 @@
+﻿@model WEBBANMP_NLCS.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "SuaThongTin";
+    Layout = "~/Views/Layout/_AccountLayout.cshtml";
+}
+
+<div class="col-sm-4">
+</div>
+<div class="col-sm-4">
+    <div class="signup-form">
+        <!--sign up form-->
+        <h2 class="title text-center">Thông tin khách hàng</h2>
+
+
+        <form method="post" class="my-form">
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h4 class="text-danger">@ViewBag.ThongBao</h4>
+
+            @Html.HiddenFor(model => model.KH_MA);
+
+            <label> Họ tên:</label>
+            @Html.EditorFor(model => model.KH_HOTEN)
+            <div>@Html.ValidationMessageFor(model => model.KH_HOTEN, "", new { @class = "text-danger", @required = "required" })</div>
+
+            <label> Địa chỉ:</label>
+            @Html.EditorFor(model => model.KH_DIACHI)
+            <div>@Html.ValidationMessageFor(model => model.KH_DIACHI, "", new { @class = "text-danger", @required = "required" })</div>
+
+            <label> Số điện thoại:</label>
+            @Html.EditorFor(model => model.KH_SDT)
+            <div>@Html.ValidationMessageFor(model => model.KH_SDT, "", new { @class = "text-danger", @required = "required" })</div>
+
+            <label> Giới tính:</label>
+            <div class="row">
+                <div class="col-sm-3">
+
+                    @Html.DropDownList("KH_GIOITINH", new List<SelectListItem>()
+                                 {
+                                 new SelectListItem(){ Text = "Nam", Value = "true"},
+                                 new SelectListItem(){ Text = "Nữ", Value = "false"}
+                                 });
+
+                </div>
+            </div>
+
+            <a href="@Url.Action("DoiMatKhau","Home")">Đổi mật khẩu</a>
+
+            <button type="submit" class="btn btn-default center-block">Cập nhật</button>
+
+            <center><a href="@Url.Action("Index", "Home")"><h3 class="btn btn-default">Hủy</h3></a></center>
+        </form>
+    </div><!--/sign up form-->
+</div>

@@ -1,0 +1,91 @@
+﻿@using WEBBANMP_NLCS.Models
+@model PHIEUNHAP
+@{
+    ViewBag.Title = "TaoMoiPhieuNhap";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Tạo mới phiếu nhập</h2>
+
+@using (Html.BeginForm("TaoMoiPhieuNhap", "QuanLyPhieuNhap", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PN_NGAYNHAP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control col-md-3" name="PN_NGAYNHAP" />
+            @Html.ValidationMessageFor(model => model.PN_NGAYNHAP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NCC_MA, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("NCC_MA", null, new { @class = "form-control col-md-5" })
+            @Html.ValidationMessageFor(model => model.NCC_MA, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PN_GHICHU, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.PN_GHICHU, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PN_GHICHU, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <br />
+    @*Phần chi tiết nhập hàng*@
+    <table class="table tblChiTietPhieuNhap">
+        <tr class="trFirstChild">
+            <td>Sản phẩm</td>
+            <td>Đơn giá nhập</td>
+            <td>Số lượng nhập</td>
+            <td>Xóa</td>
+        </tr>
+
+        <tr class="trAppend" style="display:none;" data-id="-1">
+            <td>
+                @Html.DropDownList("SP_MA", null, new { @class = "form-control ddlSanPham" })
+                
+            </td>
+            <td>
+                <input name="" class="form-control txtDonGia" type="number" value="0" />
+            </td>
+            <td>
+                <input name="" class="form-control txtSoLuong" type="number" value="1" />
+            </td>
+            <td>
+                <input class="btnDelete btn btn-danger"  value="-" />
+            </td>
+        </tr>
+
+
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value=" + Thêm sản phẩm" id="btnAdd" class="btn btn-light" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Tạo mới" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>
+

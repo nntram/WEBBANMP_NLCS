@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "DoiMatKhau";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Đổi mật khẩu</h2>
+
+@using (Html.BeginForm("DoiMatKhau", "TaiKhoan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("NV_TAIKHOAN", (string)ViewBag.taikhoan)
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Mật khẩu cũ </label>
+            <div class="col-md-9">
+                <input type="password" required class="form-control" name="matkhaucu" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Mật khẩu mới </label>
+            <div class="col-md-9">
+                <input type="password" required class="form-control" name="matkhaumoi" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Nhập lại mật khẩu mới </label>
+            <div class="col-md-9">
+                <input type="password" required class="form-control" name="matkhaumoi2" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>

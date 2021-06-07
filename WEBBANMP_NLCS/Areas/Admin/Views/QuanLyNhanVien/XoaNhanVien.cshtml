@@ -1,0 +1,80 @@
+﻿@model WEBBANMP_NLCS.Models.NHANVIEN
+@{
+    ViewBag.Title = "XoaNhanVien";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Xác nhận xóa nhân viên</h2>
+
+@using (Html.BeginForm("XacNhanXoaNhanVien", "QuanLyNhanVien", FormMethod.Post))
+{
+
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("NV_MA", Model.NV_MA)
+    <div class="form-group">
+        @Html.LabelFor(model => model.NV_HOTEN, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.NV_HOTEN, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.NV_HOTEN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2"> Giới tính</label>
+
+        <div class="col-md-2">
+            @Html.DropDownList("NV_GIOITINH", new List<SelectListItem>()
+          {
+              new SelectListItem(){Selected = true, Text = "Nam", Value = "true"},
+              new SelectListItem(){Selected = false, Text = "Nữ", Value = "false"}
+          }, new { @class = "form-control", @disabled = "disabled" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NV_SDT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.NV_SDT, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.NV_SDT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NV_TAIKHOAN, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.NV_TAIKHOAN, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.NV_TAIKHOAN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Chức vụ</label>
+        <div class="col-md-3">
+            @Html.DropDownList("NV_QUYENSD", new List<SelectListItem>()
+          {
+              new SelectListItem(){Selected = true, Text = "Nhân viên", Value = "user"},
+              new SelectListItem(){Text = "Quản lý cửa hàng", Value = "admin"},
+              new SelectListItem(){Text = "Đã thôi việc", Value = "disabled"}
+          }, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>
+
+

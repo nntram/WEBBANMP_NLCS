@@ -1,0 +1,71 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc
+
+
+@model WEBBANMP_NLCS.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Layout/_AccountLayout.cshtml";
+}
+
+
+
+<div class="col-sm-4">
+</div>
+<div class="col-sm-4">
+    <div class="signup-form">
+        <!--sign up form-->
+        <h2 class="title text-center">Đăng ký tài khoản</h2>
+
+        
+        <form method="post" class="my-form">
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h4 class="text-danger">@ViewBag.ThongBao</h4>
+
+            <label> Họ tên:</label>
+            <input type="text" placeholder="Họ tên" name="KH_HOTEN" required>
+            <div>@Html.ValidationMessageFor(model => model.KH_HOTEN, "", new { @class = "text-danger" })</div>
+
+            <label> Địa chỉ:</label>
+            <input type="text" placeholder="Địa chỉ" name="KH_DIACHI" required>
+            <div>@Html.ValidationMessageFor(model => model.KH_DIACHI, "", new { @class = "text-danger" })</div>
+
+            <label> Số điện thoại:</label>
+            <input type="text" placeholder="Số điện thoại" name="KH_SDT" required>
+            <div>@Html.ValidationMessageFor(model => model.KH_SDT, "", new { @class = "text-danger" })</div>
+
+            <label> Tài khoản:</label>
+            <input type="text" placeholder="Tài khoản" name="KH_TAIKHOAN" required>
+            <div>@Html.ValidationMessageFor(model => model.KH_TAIKHOAN, "", new { @class = "text-danger" })</div>
+
+            <label> Mật khẩu:</label>
+            <input type="password" placeholder="Mật khẩu" name="nhapmatkhau" required>
+            <div>@Html.ValidationMessageFor(model => model.KH_MATKHAU, "", new { @class = "text-danger" })</div>
+
+            <label> Nhập lại mật khẩu:</label>
+            <input type="password" placeholder="Nhập lại mật khẩu" name="nhaplaimatkhau" required>
+
+            <label> Giới tính:</label>
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.DropDownList("KH_GIOITINH", new List<SelectListItem>()
+                  {
+                      new SelectListItem(){Selected = true, Text = "Nam", Value = "true"},
+                      new SelectListItem(){Selected = false, Text = "Nữ", Value = "false"}
+                  })
+
+                </div>
+            </div>
+
+            <div>@Html.Captcha(5)</div>
+
+
+            <button type="submit" class="btn btn-default center-block">Đăng ký</button>
+        </form>
+    </div><!--/sign up form-->
+</div>
+
+
